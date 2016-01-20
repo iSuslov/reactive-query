@@ -1,12 +1,8 @@
 Package.describe({
   name: 'zuzel:reactive-query',
-  version: '0.0.1',
-  // Brief, one-line summary of the package.
-  summary: '',
-  // URL to the Git repository containing the source code for this package.
-  git: '',
-  // By default, Meteor will default to using README.md for documentation.
-  // To avoid submitting documentation, set this field to null.
+  version: '1.0',
+  summary: 'Reactive query is a meteor package that makes it easy to serialize application state in URL query params',
+  git: 'https://github.com/iSuslov/reactive-query',
   documentation: 'README.md'
 });
 
