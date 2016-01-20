@@ -93,7 +93,7 @@ If no customData provided or null, returns current data.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [customData] | <code>CustomControllerData</code> | custom data. |
+| [customData] | <code>Object</code> | custom data. |
 
 <a name="ReactiveQuery+whatIfAsQueryParam"></a>
 ### reactiveQuery.whatIfAsQueryParam([customData]) ⇒ <code>[QueryParamObject](#QueryParamObject)</code>
@@ -104,5 +104,5 @@ If no customData provided or null, returns current data as {QueryParamObject}.
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [customData] | <code>CustomControllerData</code> | custom data |
+| [customData] | <code>Object</code> | custom data |
 
