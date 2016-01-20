@@ -47,7 +47,7 @@ Tinytest.add('Check default values', function (test) {
 	test.equal(myReactivityQuery.get(keys.TWO), keys.TWO.value);
 });
 
-Tinytest.add('Check get as query param', function (test) {
+Tinytest.add('Check whatIf query param', function (test) {
 	var keys = {
 		ONE: {
 			value: 54,
@@ -60,13 +60,13 @@ Tinytest.add('Check get as query param', function (test) {
 	};
 	var myReactivityQuery = new ReactiveQuery("my", keys);
 
-	var queryParam = myReactivityQuery.getAsQueryParam();
+	var queryParam = myReactivityQuery.whatIfAsQueryParam();
 	test.equal(queryParam.name, "my", "Query param name should be `my` ");
 	var decodedParamValue = ReactiveQueryUtils.decodeParam(queryParam.value);
 	test.equal(decodedParamValue, {one: 54, two: "something"}, "Query value is wrong");
 });
 
-Tinytest.add('Check mimic method', function (test) {
+Tinytest.add('Check whatIf method', function (test) {
 	var keys = {
 		ONE: {
 			value: 54,
@@ -79,8 +79,8 @@ Tinytest.add('Check mimic method', function (test) {
 	};
 	var myReactivityQuery = new ReactiveQuery("my", keys);
 
-	var mimicObject = myReactivityQuery.mimic({one: 11});
-	test.equal(mimicObject, {one: 11, two: "something"}, "Query value is wrong");
+	var whatIfObject = myReactivityQuery.whatIf({one: 11});
+	test.equal(whatIfObject, {one: 11, two: "something"}, "Query value is wrong");
 });
 
 Tinytest.add('Check set method', function (test) {
@@ -100,7 +100,7 @@ Tinytest.add('Check set method', function (test) {
 	params.my = ReactiveQueryUtils.encodeParam({hundred: 100});
 	myReactivityQuery.set(params);
 
-	test.equal(myReactivityQuery.mimic(), {hundred: 100}, "Query value is wrong");
+	test.equal(myReactivityQuery.whatIf(), {hundred: 100}, "Query value is wrong");
 	test.isUndefined(myReactivityQuery.get(keys.ONE));
 	test.isUndefined(myReactivityQuery.get(keys.TWO));
 	test.equal(myReactivityQuery.get(keys.HUNDRED), 100);
@@ -131,7 +131,7 @@ Tinytest.add('Check isValid callback with set method', function (test) {
 	test.equal(myReactivityQuery.get(keys.HUNDRED), 100);
 });
 
-Tinytest.add('Check isValid callback with mimic method', function (test) {
+Tinytest.add('Check isValid callback with whatIf method', function (test) {
 	var keys = {
 		ONE: {
 			value: 54,
@@ -150,9 +150,9 @@ Tinytest.add('Check isValid callback with mimic method', function (test) {
 		HUNDRED: "hundred"
 	};
 	var myReactivityQuery = new ReactiveQuery("my", keys);
-	var mimicData = myReactivityQuery.mimic({hundred: 100, one: "10", two: "other"});
+	var whatIfData = myReactivityQuery.whatIf({hundred: 100, one: "10", two: "other"});
 
-	test.equal(mimicData, {one: 54, hundred: 100, two: "other"}, "Query value is wrong");
+	test.equal(whatIfData, {one: 54, hundred: 100, two: "other"}, "Query value is wrong");
 	test.equal(myReactivityQuery.get(keys.TWO), "something");
 	test.equal(myReactivityQuery.get(keys.ONE), 54);
 	test.isUndefined(myReactivityQuery.get(keys.HUNDRED));

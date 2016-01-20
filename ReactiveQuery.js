@@ -6,6 +6,12 @@
  * @property {function} [onChange] Runs if the value is changed, signature: onChange(oldValue, newValue, key.name)
  */
 
+ /**
+ * @typedef {object} QueryParamObject
+ * @property {string} name of the query parameter
+ * @property {value} serialized URI encoded value of the query parameter
+ */
+
 /**
  *
  * @param name {string}
@@ -22,10 +28,12 @@ ReactiveQuery = function (name, keys) {
 	}
 
 	/**
-	 * {array} of keys
+	 * @private
+	 * {array} normalized array of keys
 	 */
 	var entireKeys = ReactiveQueryUtils.normalizeKeys(_.clone(keys));
 	var currentData = new ReactiveDict();
+	// set default values if any
 	_.each(entireKeys, function(key){
 		if(typeof key.value !== "undefined"){
 			currentData.set(key.name, key.value);
@@ -48,32 +56,8 @@ ReactiveQuery = function (name, keys) {
 		return currentData.get(key);
 	}
 
-
 	/**
-	 * Controller data as URI query param
-	 * Provides modified controller data based on customData.
-	 * If no customData provided or null, returns current data.
-	 * @param {CustomControllerData} [customData] custom data
-	 * @returns {ListControllerQuery}
-	 */
-	this.getAsQueryParam = function (customData) {
-		var data = generateData(customData);
-		return {
-			name: name,
-			value: ReactiveQueryUtils.encodeParam(data)
-		}
-	}
-
-	/**
-	 * Provides modified data based on customData. Ignores invalid data (if isValid callback is defined for the key)
-	 * If no customData provided or null, returns current data.
-	 * @param {CustomControllerData} [customData] custom data
-	 */
-	this.mimic = function (customData) {
-		return generateData(customData);
-	}
-
-	/**
+	 * NOT SIMILAR to ReactiveDict or ReactiveVar
 	 * Force to update data based on query params, ignores invalid data (if isValid callback is defined for the key)
 	 * Typically it should be used when url changes.
 	 * @param params {object} query params object like this {name1: value1, name2: value2}, URI-encoded values expected
@@ -90,6 +74,30 @@ ReactiveQuery = function (name, keys) {
 		entireKeys.forEach(function (key) {
 			ReactiveQueryUtils.forceData(param, currentData, key);
 		});
+	}
+
+	/**
+	 * Provides modified data based on customData. Ignores invalid data (if isValid callback is defined for the key)
+	 * If no customData provided or null, returns current data.
+	 * @param {CustomControllerData} [customData] custom data.
+	 * @returns {object} data
+	 */
+	this.whatIf = function (customData) {
+		return generateData(customData);
+	}
+
+	/**
+	 * Provides modified controller data based on customData.
+	 * If no customData provided or null, returns current data as {QueryParamObject}.
+	 * @param {CustomControllerData} [customData] custom data
+	 * @returns {QueryParamObject}
+	 */
+	this.whatIfAsQueryParam = function (customData) {
+		var data = generateData(customData);
+		return {
+			name: name,
+			value: ReactiveQueryUtils.encodeParam(data)
+		}
 	}
 
 	/**
