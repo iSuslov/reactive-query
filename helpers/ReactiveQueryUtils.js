@@ -44,7 +44,7 @@ ReactiveQueryUtils = new function () {
 	}
 	/**
 	 * Sets data to reactive dict
-	 * @param newData {object} decoded and deserialized query param
+	 * @param newData {object} decoded and deserialized query param value
 	 * @param oldData {ReactiveDict} reactive dict controller data
 	 * @param key {ReactiveQueryKey} key object
 	 * @returns {boolean} `true` if value was changed, otherwise `false`

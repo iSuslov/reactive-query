@@ -127,7 +127,7 @@ Tinytest.addAsync('Force data method reactivity test', function (test, onComplet
 		Meteor.setTimeout(function () {
 			ReactiveQueryUtils.forceData(customData, currentData, reactiveQueryKey);
 		}, totalWait);
-		totalWait += 400;
+		totalWait += 1000;
 	}
 
 	var runs = {
@@ -144,7 +144,7 @@ Tinytest.addAsync('Force data method reactivity test', function (test, onComplet
 		});
 	});
 
-	test.equal(runs["page"], 1, "Page run more than " + 1);
+	test.equal(runs["p"], 1, "Page run more than " + 1);
 
 	test1(SET_OF_KEYS.SORT, {"s": 3}, 2);
 	test1(SET_OF_KEYS.SORT, {"s": 4}, 2);
