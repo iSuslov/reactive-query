@@ -80,7 +80,7 @@ ReactiveQuery = function (name, keys) {
 	/**
 	 * Provides merged data based on the customData. Ignores invalid data (if isValid callback is defined for the key)
 	 * If no customData provided or null, returns current data.
-	 * @param {CustomControllerData} [customData] custom data.
+	 * @param {Object} [customData] custom data.
 	 * @returns {object} Current (possibly modified if customData argument provided) data as a key-value pairs
 	 */
 	this.whatIf = function (customData) {
@@ -90,7 +90,7 @@ ReactiveQuery = function (name, keys) {
 	/**
 	 * Provides merged data based on the customData. Ignores invalid data (if isValid callback is defined for the key)
 	 * If no customData provided or null, returns current data as {QueryParamObject}.
-	 * @param {CustomControllerData} [customData] custom data
+	 * @param {Object} [customData] custom data
 	 * @returns {QueryParamObject}
 	 */
 	this.whatIfAsQueryParam = function (customData) {
@@ -106,7 +106,7 @@ ReactiveQuery = function (name, keys) {
 	 * Generate data based on current controller data, merged with custom data, using specified key
 	 * @param customData {CustomControllerData}
 	 * @param keyType {String} type of keys to use. 'normal' or 'uri'
-	 * @returns {CustomControllerData}
+	 * @returns {Object}
 	 */
 	function generateData(customData) {
 		var result = {};

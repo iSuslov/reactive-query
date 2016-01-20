@@ -1,7 +1,7 @@
 Package.describe({
   name: 'zuzel:reactive-query',
   version: '1.0.0',
-  summary: 'Reactive query is a meteor package that makes it easy to serialize application state in URL query params',
+  summary: 'Package that makes it easy to serialize application state in URL query params',
   git: 'https://github.com/iSuslov/reactive-query',
   documentation: 'README.md'
 });
