@@ -113,13 +113,13 @@ Tinytest.add('Force data method test filter only', function (test) {
  * Ensure it triggers Tracker only on real data change. If data is the same as it was before, then no Tracker
  * triggering
  */
-/*Tinytest.addAsync('Force data method reactivity test', function (test, onComplete) {
+Tinytest.addAsync('Force data method reactivity test', function (test, onComplete) {
 	var currentData = new ReactiveDict();
-	currentData.set("page", 3);
-	currentData.set("count", 20);
-	currentData.set("filter", {orderId: "50", customer: "Messi"});
-	currentData.set("sort", "users");
-	currentData.set("order", 1);
+	currentData.set("p", 3);
+	currentData.set("c", 20);
+	currentData.set("f", {orderId: "50", customer: "Messi"});
+	currentData.set("s", "users");
+	currentData.set("o", 1);
 
 
 	var totalWait = 0;
@@ -131,11 +131,11 @@ Tinytest.add('Force data method test filter only', function (test) {
 	}
 
 	var runs = {
-		"page": 0,
-		"count": 0,
-		"filter": 0,
-		"sort": 0,
-		"order": 0
+		"p": 0,
+		"c": 0,
+		"f": 0,
+		"s": 0,
+		"o": 0
 	}
 	Object.keys(runs).forEach(function (runKey) {
 		Tracker.autorun(function () {
@@ -187,13 +187,13 @@ Tinytest.add('Force data method test filter only', function (test) {
 	test1(SET_OF_KEYS.FILTER, {"f": {array: [1,"2",3]}}, 7);
 
 	Meteor.setTimeout(function () {
-		test.equal(runs["page"], 4, "Page runs more or less");
-		test.equal(runs["sort"], 5, "Sort runs more or less");
-		test.equal(runs["count"], 7, "Count runs more or less");
-		test.equal(runs["order"], 6, "Order runs more or less");
-		test.equal(runs["filter"], 7, "Filter runs more or less");
+		test.equal(runs["p"], 4, "Page runs more or less");
+		test.equal(runs["s"], 5, "Sort runs more or less");
+		test.equal(runs["c"], 7, "Count runs more or less");
+		test.equal(runs["o"], 6, "Order runs more or less");
+		test.equal(runs["f"], 7, "Filter runs more or less");
 		onComplete();
-	}, totalWait + 500)
+	}, totalWait + 5000)
 
-});*/
+});
 
