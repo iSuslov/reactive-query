@@ -127,7 +127,7 @@ Tinytest.addAsync('Force data method reactivity test', function (test, onComplet
 		Meteor.setTimeout(function () {
 			ReactiveQueryUtils.forceData(customData, currentData, reactiveQueryKey);
 		}, totalWait);
-		totalWait += 1000;
+		totalWait += 100;
 	}
 
 	var runs = {
@@ -146,36 +146,6 @@ Tinytest.addAsync('Force data method reactivity test', function (test, onComplet
 
 	test.equal(runs["p"], 1, "Page run more than " + 1);
 
-	test1(SET_OF_KEYS.SORT, {"s": 3}, 2);
-	test1(SET_OF_KEYS.SORT, {"s": 4}, 2);
-	test1(SET_OF_KEYS.SORT, {"s": "messages"}, 3);
-	test1(SET_OF_KEYS.SORT, {"s": "messages"}, 3);
-	test1(SET_OF_KEYS.SORT, {"s": "users"}, 4);
-	test1(SET_OF_KEYS.SORT, {"s": 7}, 5);
-	test1(SET_OF_KEYS.SORT, {}, 5);
-
-	test1(SET_OF_KEYS.PAGE, {"p": 3}, 1);
-	test1(SET_OF_KEYS.PAGE, {"p": 4}, 2);
-	test1(SET_OF_KEYS.PAGE, {"p": "4"}, 3);
-	test1(SET_OF_KEYS.PAGE, {"p": "7"}, 3);
-	test1(SET_OF_KEYS.PAGE, {"p": 7}, 4);
-
-	test1(SET_OF_KEYS.COUNT, {"c": 3}, 2);
-	test1(SET_OF_KEYS.COUNT, {"c": 4}, 3);
-	test1(SET_OF_KEYS.COUNT, {"c": 4}, 3);
-	test1(SET_OF_KEYS.COUNT, {"c": "4"}, 4);
-	test1(SET_OF_KEYS.COUNT, {"c": 4}, 5);
-	test1(SET_OF_KEYS.COUNT, {"c": "7"}, 6);
-	test1(SET_OF_KEYS.COUNT, {"c": 7}, 7);
-
-	test1(SET_OF_KEYS.ORDER, {"o": 1}, 1);
-	test1(SET_OF_KEYS.ORDER, {"o": "4"}, 2);
-	test1(SET_OF_KEYS.ORDER, {"o": 4}, 3);
-	test1(SET_OF_KEYS.ORDER, {"o": 4}, 3);
-	test1(SET_OF_KEYS.ORDER, {"o": "7"}, 4);
-	test1(SET_OF_KEYS.ORDER, {"o": 7}, 5);
-	test1(SET_OF_KEYS.ORDER, {}, 6);
-
 	test1(SET_OF_KEYS.FILTER, {"f": {orderId: "50", customer: "Messi"}}, 1);
 	test1(SET_OF_KEYS.FILTER, {"f": {orderId: "51", customer: "Messi"}}, 2);
 	test1(SET_OF_KEYS.FILTER, {"f": {orderId: 51, customer: "Messi"}}, 3);
@@ -187,13 +157,9 @@ Tinytest.addAsync('Force data method reactivity test', function (test, onComplet
 	test1(SET_OF_KEYS.FILTER, {"f": {array: [1,"2",3]}}, 7);
 
 	Meteor.setTimeout(function () {
-		test.equal(runs["p"], 4, "Page runs more or less");
-		test.equal(runs["s"], 5, "Sort runs more or less");
-		test.equal(runs["c"], 7, "Count runs more or less");
-		test.equal(runs["o"], 6, "Order runs more or less");
 		test.equal(runs["f"], 7, "Filter runs more or less");
 		onComplete();
-	}, totalWait + 5000)
+	}, totalWait + 1000)
 
 });
 
