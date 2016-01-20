@@ -1,6 +1,14 @@
 [![Build Status](https://travis-ci.org/iSuslov/reactive-query.svg?branch=master)](https://travis-ci.org/iSuslov/reactive-query)
+
+```
+meteor add zuzel:reactive-query
+```
+
+<a href="https://atmospherejs.com/zuzel/reactive-query">https://atmospherejs.com/zuzel/reactive-query</a>
+
 # reactive-query
 Reactive query is a meteor package that makes it easy to serialize application state in URL query params
+Can save data as a query param without ruining URL.
 
 #API Reference:
 <a name="QueryParamObject"></a>
@@ -11,7 +19,7 @@ Reactive query is a meteor package that makes it easy to serialize application s
 | Name | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> | of the query parameter |
-| serialized | <code>value</code> | URI encoded value of the query parameter |
+| serialized | <code>value</code> | URI-encoded value of the query parameter |
 
 
 <a name="ReactiveQueryKey"></a>
@@ -23,7 +31,7 @@ Reactive query is a meteor package that makes it easy to serialize application s
 | --- | --- | --- |
 | name | <code>string</code> | Key name |
 | value | <code>\*</code> | Default value |
-| isValid | <code>function</code> | Should return `true` or `false`, receives value as first argument |
+| isValid | <code>function</code> | Should return `true` or `false`, receives the value as first argument |
 | onChange | <code>function</code> | Runs if the value is changed, signature: onChange(oldValue, newValue, key.name) |
 
 
@@ -44,11 +52,11 @@ Reactive query is a meteor package that makes it easy to serialize application s
 | Param | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> |  |
-| keys | <code>[Array.&lt;ReactiveQueryKey&gt;](#ReactiveQueryKey)</code> &#124; <code>[object.&lt;ReactiveQueryKey&gt;](#ReactiveQueryKey)</code> | array or object of ReactiveQueryKey |
+| keys | <code>[Array.&lt;ReactiveQueryKey&gt;](#ReactiveQueryKey)</code> &#124; <code>Object.&lt;string, ReactiveQueryKey&gt;</code> | array or object of ReactiveQueryKey |
 
 <a name="ReactiveQuery+get"></a>
 ### reactiveQuery.get(key, [reactive]) ⇒ <code>\*</code>
-Similar to ReactiveDict, gets value by key
+Similar to ReactiveDict, gets the value by the key
 
 **Kind**: instance method of <code>[ReactiveQuery](#ReactiveQuery)</code>  
 **Returns**: <code>\*</code> - any serializable data  
@@ -64,23 +72,24 @@ Similar to ReactiveDict, gets value by key
 
 <a name="ReactiveQuery+set"></a>
 ### reactiveQuery.set(params)
-NOT SIMILAR to ReactiveDict or ReactiveVar
-Force to update data based on query params, ignores invalid data (if isValid callback is defined for the key)
-Typically it should be used when url changes.
+**NOT SIMILAR to ReactiveDict or ReactiveVar**.
+Updates the data based on query params, ignores invalid data (if isValid callback is defined for the
+key).
+Typically it should be used when a url changes.
 
 **Kind**: instance method of <code>[ReactiveQuery](#ReactiveQuery)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| params | <code>object</code> | query params object like this {name1: value1, name2: value2}, URI-encoded values expected The same structure as returned by `iron-router` method Router.current().params.query |
+| params | <code>object</code> | query params object like this {name1: value1, name2: value2}, URI-encoded values expected The same structure as returned by the `iron-router` method Router.current().params.query |
 
 <a name="ReactiveQuery+whatIf"></a>
 ### reactiveQuery.whatIf([customData]) ⇒ <code>object</code>
-Provides modified data based on customData. Ignores invalid data (if isValid callback is defined for the key)
+Provides merged data based on the customData. Ignores invalid data (if isValid callback is defined for the key)
 If no customData provided or null, returns current data.
 
 **Kind**: instance method of <code>[ReactiveQuery](#ReactiveQuery)</code>  
-**Returns**: <code>object</code> - data  
+**Returns**: <code>object</code> - Current (possibly modified if customData argument provided) data as a key-value pairs  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -88,7 +97,7 @@ If no customData provided or null, returns current data.
 
 <a name="ReactiveQuery+whatIfAsQueryParam"></a>
 ### reactiveQuery.whatIfAsQueryParam([customData]) ⇒ <code>[QueryParamObject](#QueryParamObject)</code>
-Provides modified controller data based on customData.
+Provides merged data based on the customData. Ignores invalid data (if isValid callback is defined for the key)
 If no customData provided or null, returns current data as {QueryParamObject}.
 
 **Kind**: instance method of <code>[ReactiveQuery](#ReactiveQuery)</code>  

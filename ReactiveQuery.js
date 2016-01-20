@@ -2,20 +2,20 @@
  * @typedef {object|string} ReactiveQueryKey
  * @property {string} name Key name
  * @property {*} [value] Default value
- * @property {function} [isValid] Should return `true` or `false`, receives value as first argument
+ * @property {function} [isValid] Should return `true` or `false`, receives the value as first argument
  * @property {function} [onChange] Runs if the value is changed, signature: onChange(oldValue, newValue, key.name)
  */
 
  /**
  * @typedef {object} QueryParamObject
  * @property {string} name of the query parameter
- * @property {value} serialized URI encoded value of the query parameter
+ * @property {value} serialized URI-encoded value of the query parameter
  */
 
 /**
  *
  * @param name {string}
- * @param keys {Array.<ReactiveQueryKey>|object.<ReactiveQueryKey>} array or object of ReactiveQueryKey
+ * @param keys {(Array.<ReactiveQueryKey>|Object.<string,ReactiveQueryKey>)} array or object of ReactiveQueryKey
  * @constructor
  */
 
@@ -41,7 +41,7 @@ ReactiveQuery = function (name, keys) {
 	});
 
 	/**
-	 * Similar to ReactiveDict, gets value by key
+	 * Similar to ReactiveDict, gets the value by the key
 	 * @param key {ReactiveQueryKey} key to get data
 	 * @param [reactive] {boolean} Default true; pass false to disable reactivity
 	 * @throws Error If key is malformed
@@ -57,11 +57,12 @@ ReactiveQuery = function (name, keys) {
 	}
 
 	/**
-	 * NOT SIMILAR to ReactiveDict or ReactiveVar
-	 * Force to update data based on query params, ignores invalid data (if isValid callback is defined for the key)
-	 * Typically it should be used when url changes.
+	 * **NOT SIMILAR to ReactiveDict or ReactiveVar**.
+	 * Updates the data based on query params, ignores invalid data (if isValid callback is defined for the
+	 * key).
+	 * Typically it should be used when a url changes.
 	 * @param params {object} query params object like this {name1: value1, name2: value2}, URI-encoded values expected
-	 * The same structure as returned by `iron-router` method Router.current().params.query
+	 * The same structure as returned by the `iron-router` method Router.current().params.query
 	 */
 	this.set = function (params) {
 		var paramEncoded = params[name];
@@ -77,17 +78,17 @@ ReactiveQuery = function (name, keys) {
 	}
 
 	/**
-	 * Provides modified data based on customData. Ignores invalid data (if isValid callback is defined for the key)
+	 * Provides merged data based on the customData. Ignores invalid data (if isValid callback is defined for the key)
 	 * If no customData provided or null, returns current data.
 	 * @param {CustomControllerData} [customData] custom data.
-	 * @returns {object} data
+	 * @returns {object} Current (possibly modified if customData argument provided) data as a key-value pairs
 	 */
 	this.whatIf = function (customData) {
 		return generateData(customData);
 	}
 
 	/**
-	 * Provides modified controller data based on customData.
+	 * Provides merged data based on the customData. Ignores invalid data (if isValid callback is defined for the key)
 	 * If no customData provided or null, returns current data as {QueryParamObject}.
 	 * @param {CustomControllerData} [customData] custom data
 	 * @returns {QueryParamObject}
