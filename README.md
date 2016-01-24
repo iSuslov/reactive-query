@@ -54,6 +54,7 @@ Template.home.events({
 });
 ```
 
+## Template
 ```
  {{#if isModalOpened}}
     <div class="modal-simple-fade fit">
@@ -77,11 +78,13 @@ Template.home.events({
 | Name | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> | of the query parameter |
-| serialized | <code>value</code> | URI-encoded value of the query parameter |
+| value | <code>string</code> | serialized URI-encoded value of the query parameter |
 
 
 <a name="ReactiveQueryKey"></a>
 ## ReactiveQueryKey : <code>object</code> &#124; <code>string</code>
+It could be just a String value, which will be treated as a name of parameter, or an object.
+
 **Kind**: global typedef  
 **Properties**
 
