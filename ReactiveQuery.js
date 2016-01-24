@@ -1,5 +1,6 @@
 
 /**
+ * It could be just a String value, which will be treated as a name of parameter, or an object.
  * @typedef {object|string} ReactiveQueryKey
  * @property {string} name Key name
  * @property {*} [value] Default value
@@ -10,7 +11,7 @@
 /**
  * @typedef {object} QueryParamObject
  * @property {string} name of the query parameter
- * @property {value} serialized URI-encoded value of the query parameter
+ * @property {string} value serialized URI-encoded value of the query parameter
  */
 
 /**
