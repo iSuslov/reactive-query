@@ -52,6 +52,12 @@ Template.home.events({
         goActions(ACTIONS_QUERY.IS_MODAL_OPEN, null); //or false
     }
 });
+function goActions(key, value){
+    var query = Router.current().params.query;
+    var newQueryParam = Actions.whatIfAsQueryParam(key, value);
+    query[newQueryParam.name] = newQueryParam.value;
+    Router.go('home', null, {query: query});
+}
 ```
 
 ```
