@@ -79,7 +79,7 @@ Tinytest.add('Check whatIf method', function (test) {
 	};
 	var myReactivityQuery = new ReactiveQuery("my", keys);
 
-	var whatIfObject = myReactivityQuery.whatIf({one: 11});
+	var whatIfObject = myReactivityQuery.whatIf(keys.ONE, 11);
 	test.equal(whatIfObject, {one: 11, two: "something"}, "Query value is wrong");
 });
 
@@ -110,7 +110,7 @@ Tinytest.add('Check isValid callback with set method', function (test) {
 	var keys = {
 		ONE: {
 			value: 54,
-			isValid: function(val){
+			isValid: function (val) {
 				return _.isNumber(val);
 			},
 			name: "one"
@@ -135,7 +135,7 @@ Tinytest.add('Check isValid callback with whatIf method', function (test) {
 	var keys = {
 		ONE: {
 			value: 54,
-			isValid: function(val){
+			isValid: function (val) {
 				return _.isNumber(val);
 			},
 			name: "one"
@@ -150,7 +150,7 @@ Tinytest.add('Check isValid callback with whatIf method', function (test) {
 		HUNDRED: "hundred"
 	};
 	var myReactivityQuery = new ReactiveQuery("my", keys);
-	var whatIfData = myReactivityQuery.whatIf({hundred: 100, one: "10", two: "other"});
+	var whatIfData = myReactivityQuery.whatIf(keys.HUNDRED, 100, keys.ONE, "10", keys.TWO, "other");
 
 	test.equal(whatIfData, {one: 54, hundred: 100, two: "other"}, "Query value is wrong");
 	test.equal(myReactivityQuery.get(keys.TWO), "something");
@@ -160,14 +160,12 @@ Tinytest.add('Check isValid callback with whatIf method', function (test) {
 
 Tinytest.add('Check onChange callback', function (test) {
 	var timesChanged = 0;
-	var paramsRecord = {
-
-	}
-	var onChange = function(oldData, newData, keyName){
-		timesChanged ++;
-		paramsRecord.oldData= oldData;
-		paramsRecord.newData= newData;
-		paramsRecord.keyName= keyName;
+	var paramsRecord = {}
+	var onChange = function (oldData, newData, keyName) {
+		timesChanged++;
+		paramsRecord.oldData = oldData;
+		paramsRecord.newData = newData;
+		paramsRecord.keyName = keyName;
 	}
 	var keys = {
 		ONE: {

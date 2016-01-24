@@ -1,0 +1,44 @@
+<template name="home">
+    <div class="container">
+        <div class="text-center">State is serialized in URL. No Session or Mongo is used. Try reload the page or
+            copy/paste URLs in to a new tab
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <h1>ReactiveQuery "details"</h1>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <label for="checkbox">Try this checkbox:</label>
+                        <div></div>
+                        <input {{isCheckboxChecked}} id="checkbox" type="checkbox">
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 20px">
+                    <form action="" class="col-xs-12">
+                        <label>Or this radio buttons:</label>
+                        <div></div>
+                        <input type="radio" name="gender" {{isRadioChecked "male"}} value="male"> Male<br>
+                        <input type="radio" name="gender" {{isRadioChecked "female"}} value="female"> Female<br>
+                        <input type="radio" name="gender" {{isRadioChecked "other"}} value="other"> Other
+                    </form>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <h1>ReactiveQuery "actions"</h1>
+                <button type="button" class="open-modal">Open Modal</button>
+            </div>
+        </div>
+    </div>
+    {{#if isModalOpened}}
+        <div class="modal-simple-fade fit">
+            <div class="modal-simple">
+                <h1>Hello! You can reload this page..</h1>
+                <span>..and I'm still here waiting for you..</span>
+                <button type="button" class="close-modal" style="position: absolute; bottom: 20px; right: 20px;">
+                    Close
+                </button>
+            </div>
+        </div>
+    {{/if}}
+</template>

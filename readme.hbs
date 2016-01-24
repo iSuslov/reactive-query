@@ -5,10 +5,57 @@ meteor add zuzel:reactive-query
 ```
 
 <a href="https://atmospherejs.com/zuzel/reactive-query">https://atmospherejs.com/zuzel/reactive-query</a>
+<a href="http://reactive-query.meteor.com/">DEMO</a>
 
 # reactive-query
 Reactive query is a meteor package that makes it easy to serialize application state in URL query params
 Can save data as a query param without ruining URL.
+
+#Example:
+
+## reactiveQuery-config.js
+```js
+//define keys for query
+ACTIONS_QUERY = {
+    IS_MODAL_OPEN: {
+        name: "m",
+        isValid: _.isBoolean
+    }
+}
+Actions = new ReactiveQuery("actions", ACTIONS_QUERY);
+```
+
+## Router.js
+```js
+Router.route('/', {
+    name: 'home',
+    onBeforeAction: function () {
+        Actions.set(this.params.query);
+        this.next();
+    }
+});
+```
+
+## Template controller
+```js
+Template.home.helpers({
+    isModalOpened: function () {
+        return Actions.get(ACTIONS_QUERY.IS_MODAL_OPEN);
+    }
+});
+Template.home.events({
+    'click .open-modal': function (event, template) {
+        goActions(ACTIONS_QUERY.IS_MODAL_OPEN, true);
+    }
+    'click .close-modal': function (event, template) {
+        goActions(ACTIONS_QUERY.IS_MODAL_OPEN, null); //or false
+    }
+});
+```
+
+```
+
+```
 
 #API Reference:
 {{#identifier name="QueryParamObject"~}}

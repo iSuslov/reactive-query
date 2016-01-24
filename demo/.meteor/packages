@@ -1,0 +1,6 @@
+standard-app-packages
+iron:router
+twbs:bootstrap
+standard-minifiers
+zuzel:reactive-query
+

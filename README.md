@@ -6,9 +6,67 @@ meteor add zuzel:reactive-query
 
 <a href="https://atmospherejs.com/zuzel/reactive-query">https://atmospherejs.com/zuzel/reactive-query</a>
 
+<a href="http://reactive-query.meteor.com/">DEMO</a>
+
 # reactive-query
 Reactive query is a meteor package that makes it easy to serialize application state in URL query params
 Can save data as a query param without ruining URL.
+
+#Example:
+
+## reactiveQuery-config.js
+```js
+//define keys for query
+ACTIONS_QUERY = {
+    IS_MODAL_OPEN: {
+        name: "m",
+        isValid: _.isBoolean
+    }
+}
+Actions = new ReactiveQuery("actions", ACTIONS_QUERY);
+```
+
+## Router.js
+```js
+Router.route('/', {
+    name: 'home',
+    onBeforeAction: function () {
+        Actions.set(this.params.query);
+        this.next();
+    }
+});
+```
+
+## Template controller
+```js
+Template.home.helpers({
+    isModalOpened: function () {
+        return Actions.get(ACTIONS_QUERY.IS_MODAL_OPEN);
+    }
+});
+Template.home.events({
+    'click .open-modal': function (event, template) {
+        goActions(ACTIONS_QUERY.IS_MODAL_OPEN, true);
+    }
+    'click .close-modal': function (event, template) {
+        goActions(ACTIONS_QUERY.IS_MODAL_OPEN, null); //or false
+    }
+});
+```
+
+```
+ {{#if isModalOpened}}
+    <div class="modal-simple-fade fit">
+        <div class="modal-simple">
+            <h1>Hello! You can reload this page..</h1>
+            <span>..and I'm still here waiting for you..</span>
+            <button type="button" class="close-modal" style="position: absolute; bottom: 20px; right: 20px;">
+                Close
+            </button>
+        </div>
+    </div>
+ {{/if}}
+```
 
 #API Reference:
 <a name="QueryParamObject"></a>
@@ -41,19 +99,28 @@ Can save data as a query param without ruining URL.
 
 * [ReactiveQuery](#ReactiveQuery)
     * [new ReactiveQuery(name, keys)](#new_ReactiveQuery_new)
+    * [.getName()](#ReactiveQuery+getName) ⇒ <code>String</code>
     * [.get(key, [reactive])](#ReactiveQuery+get) ⇒ <code>\*</code>
     * [.set(params)](#ReactiveQuery+set)
-    * [.whatIf([customData])](#ReactiveQuery+whatIf) ⇒ <code>object</code>
-    * [.whatIfAsQueryParam([customData])](#ReactiveQuery+whatIfAsQueryParam) ⇒ <code>[QueryParamObject](#QueryParamObject)</code>
+    * [.whatIf([...arguments])](#ReactiveQuery+whatIf) ⇒ <code>object</code>
+    * [.whatIfAsQueryParam([...arguments])](#ReactiveQuery+whatIfAsQueryParam) ⇒ <code>[QueryParamObject](#QueryParamObject)</code>
 
 <a name="new_ReactiveQuery_new"></a>
 ### new ReactiveQuery(name, keys)
+ReactiveQuery constructor.
+
 
 | Param | Type | Description |
 | --- | --- | --- |
 | name | <code>string</code> |  |
 | keys | <code>[Array.&lt;ReactiveQueryKey&gt;](#ReactiveQueryKey)</code> &#124; <code>Object.&lt;string, ReactiveQueryKey&gt;</code> | array or object of ReactiveQueryKey |
 
+<a name="ReactiveQuery+getName"></a>
+### reactiveQuery.getName() ⇒ <code>String</code>
+Get ReactiveQuery name which is used as query param name
+
+**Kind**: instance method of <code>[ReactiveQuery](#ReactiveQuery)</code>  
+**Returns**: <code>String</code> - name  
 <a name="ReactiveQuery+get"></a>
 ### reactiveQuery.get(key, [reactive]) ⇒ <code>\*</code>
 Similar to ReactiveDict, gets the value by the key
@@ -73,7 +140,7 @@ Similar to ReactiveDict, gets the value by the key
 <a name="ReactiveQuery+set"></a>
 ### reactiveQuery.set(params)
 **NOT SIMILAR to ReactiveDict or ReactiveVar**.
-Updates the data based on query params, ignores invalid data (if isValid callback is defined for the
+Updates the data based on query params, ignores and deletes invalid data (if isValid callback is defined for the
 key).
 Typically it should be used when a url changes.
 
@@ -84,25 +151,31 @@ Typically it should be used when a url changes.
 | params | <code>object</code> | query params object like this {name1: value1, name2: value2}, URI-encoded values expected The same structure as returned by the `iron-router` method Router.current().params.query |
 
 <a name="ReactiveQuery+whatIf"></a>
-### reactiveQuery.whatIf([customData]) ⇒ <code>object</code>
+### reactiveQuery.whatIf([...arguments]) ⇒ <code>object</code>
 Provides merged data based on the customData. Ignores invalid data (if isValid callback is defined for the key)
 If no customData provided or null, returns current data.
+If value is an object, you can use $unset as an entire key, to delete values from object.
+For example {$unset: {name: 1, surname}, question: "?"} for {name: "A", surname: "B",  question: ""}
+will result {question: "?"}
 
 **Kind**: instance method of <code>[ReactiveQuery](#ReactiveQuery)</code>  
 **Returns**: <code>object</code> - Current (possibly modified if customData argument provided) data as a key-value pairs  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [customData] | <code>Object</code> | custom data. |
+| [...arguments] | <code>\*</code> | any number of arguments as key value, for example whatIf(key,value,key2,value2) |
 
 <a name="ReactiveQuery+whatIfAsQueryParam"></a>
-### reactiveQuery.whatIfAsQueryParam([customData]) ⇒ <code>[QueryParamObject](#QueryParamObject)</code>
+### reactiveQuery.whatIfAsQueryParam([...arguments]) ⇒ <code>[QueryParamObject](#QueryParamObject)</code>
 Provides merged data based on the customData. Ignores invalid data (if isValid callback is defined for the key)
 If no customData provided or null, returns current data as {QueryParamObject}.
+If value is an object, you can use $unset as an entire key, to delete values from object.
+For example {$unset: {name: 1, surname}, question: "?"} for {name: "A", surname: "B",  question: ""}
+will result {question: "?"}
 
 **Kind**: instance method of <code>[ReactiveQuery](#ReactiveQuery)</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| [customData] | <code>Object</code> | custom data |
+| [...arguments] | <code>\*</code> | any number of arguments as key value, for example whatIfAsQueryParam(key,value,key2,value2) |
 
