@@ -53,14 +53,13 @@ Template.home.events({
     }
 });
 function goActions(key, value){
-	var query = Router.current().params.query;
-	var newQueryParam = Actions.whatIfAsQueryParam(key, value);
-	query[newQueryParam.name] = newQueryParam.value;
-	Router.go('home', null, {query: query});
+    var query = Router.current().params.query;
+    var newQueryParam = Actions.whatIfAsQueryParam(key, value);
+    query[newQueryParam.name] = newQueryParam.value;
+    Router.go('home', null, {query: query});
 }
 ```
 
-## Template
 ```
  {{#if isModalOpened}}
     <div class="modal-simple-fade fit">
@@ -110,7 +109,8 @@ It could be just a String value, which will be treated as a name of parameter, o
     * [new ReactiveQuery(name, keys)](#new_ReactiveQuery_new)
     * [.getName()](#ReactiveQuery+getName) ⇒ <code>String</code>
     * [.get(key, [reactive])](#ReactiveQuery+get) ⇒ <code>\*</code>
-    * [.set(params)](#ReactiveQuery+set)
+    * [.setFromParams(params)](#ReactiveQuery+setFromParams)
+    * [.set(key, value)](#ReactiveQuery+set)
     * [.whatIf([...arguments])](#ReactiveQuery+whatIf) ⇒ <code>object</code>
     * [.whatIfAsQueryParam([...arguments])](#ReactiveQuery+whatIfAsQueryParam) ⇒ <code>[QueryParamObject](#QueryParamObject)</code>
 
@@ -146,11 +146,10 @@ Similar to ReactiveDict, gets the value by the key
 | key | <code>[ReactiveQueryKey](#ReactiveQueryKey)</code> | key to get data |
 | [reactive] | <code>boolean</code> | Default true; pass false to disable reactivity |
 
-<a name="ReactiveQuery+set"></a>
-### reactiveQuery.set(params)
-**NOT SIMILAR to ReactiveDict or ReactiveVar**.
+<a name="ReactiveQuery+setFromParams"></a>
+### reactiveQuery.setFromParams(params)
 Updates the data based on query params, ignores and deletes invalid data (if isValid callback is defined for the
-key).
+key). Also removes data that does not exist in params
 Typically it should be used when a url changes.
 
 **Kind**: instance method of <code>[ReactiveQuery](#ReactiveQuery)</code>  
@@ -158,6 +157,17 @@ Typically it should be used when a url changes.
 | Param | Type | Description |
 | --- | --- | --- |
 | params | <code>object</code> | query params object like this {name1: value1, name2: value2}, URI-encoded values expected The same structure as returned by the `iron-router` method Router.current().params.query |
+
+<a name="ReactiveQuery+set"></a>
+### reactiveQuery.set(key, value)
+Directly sets data by the key.
+
+**Kind**: instance method of <code>[ReactiveQuery](#ReactiveQuery)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| key | <code>[ReactiveQueryKey](#ReactiveQueryKey)</code> | key |
+| value | <code>\*</code> | value |
 
 <a name="ReactiveQuery+whatIf"></a>
 ### reactiveQuery.whatIf([...arguments]) ⇒ <code>object</code>

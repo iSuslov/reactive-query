@@ -1,4 +1,3 @@
-
 /**
  * It could be just a String value, which will be treated as a name of parameter, or an object.
  * @typedef {object|string} ReactiveQueryKey
@@ -44,7 +43,7 @@ ReactiveQuery = function (name, keys) {
 	 * Get ReactiveQuery name which is used as query param name
 	 * @returns {String} name
 	 */
-	this.getName = function(){
+	this.getName = function () {
 		return name;
 	}
 	/**
@@ -63,14 +62,13 @@ ReactiveQuery = function (name, keys) {
 		return currentData.get(key);
 	}
 	/**
-	 * **NOT SIMILAR to ReactiveDict or ReactiveVar**.
 	 * Updates the data based on query params, ignores and deletes invalid data (if isValid callback is defined for the
-	 * key).
+	 * key). Also removes data that does not exist in params
 	 * Typically it should be used when a url changes.
 	 * @param params {object} query params object like this {name1: value1, name2: value2}, URI-encoded values expected
 	 * The same structure as returned by the `iron-router` method Router.current().params.query
 	 */
-	this.set = function (params) {
+	this.setFromParams = function (params) {
 		var paramEncoded = params[name];
 		var param = null;
 		try {
@@ -81,6 +79,16 @@ ReactiveQuery = function (name, keys) {
 		entireKeys.forEach(function (key) {
 			ReactiveQueryUtils.forceData(param, currentData, key);
 		});
+	}
+	/**
+	 * Directly sets data by the key.
+	 * @param key {ReactiveQueryKey} key
+	 * @param value {*} value
+	 */
+	this.set = function (key, value) {
+		var param = {};
+		param[_.isString(key) ? key : key.name] = value;
+		ReactiveQueryUtils.forceData(param, currentData, key);
 	}
 	/**
 	 * Provides merged data based on the customData. Ignores invalid data (if isValid callback is defined for the key)
@@ -113,14 +121,14 @@ ReactiveQuery = function (name, keys) {
 }
 
 function parseArgs(args) {
-	if(typeof args === "undefined"){
+	if (typeof args === "undefined") {
 		return;
 	}
 
 	var i = 0, n = args.length, result = {};
 	for (; i < n; i += 2) {
 		if (typeof args[i] !== "undefined" && typeof args[i + 1] !== "undefined") {
-			var key = _.isObject(args[i])? args[i].name : args[i];
+			var key = _.isObject(args[i]) ? args[i].name : args[i];
 			result[key] = args[i + 1];
 		}
 	}

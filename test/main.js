@@ -98,7 +98,7 @@ Tinytest.add('Check set method', function (test) {
 	var myReactivityQuery = new ReactiveQuery("my", keys);
 	var params = {my: {}};
 	params.my = ReactiveQueryUtils.encodeParam({hundred: 100});
-	myReactivityQuery.set(params);
+	myReactivityQuery.setFromParams(params);
 
 	test.equal(myReactivityQuery.whatIf(), {hundred: 100}, "Query value is wrong");
 	test.isUndefined(myReactivityQuery.get(keys.ONE));
@@ -124,7 +124,7 @@ Tinytest.add('Check isValid callback with set method', function (test) {
 	var myReactivityQuery = new ReactiveQuery("my", keys);
 	var params = {my: {}};
 	params.my = ReactiveQueryUtils.encodeParam({hundred: 100, one: "10"});
-	myReactivityQuery.set(params);
+	myReactivityQuery.setFromParams(params);
 
 	test.isUndefined(myReactivityQuery.get(keys.TWO));
 	test.isNull(myReactivityQuery.get(keys.ONE));
@@ -178,7 +178,7 @@ Tinytest.add('Check onChange callback', function (test) {
 	var myReactivityQuery = new ReactiveQuery("my", keys);
 	var params = {my: {}};
 	params.my = ReactiveQueryUtils.encodeParam({hundred: 100, one: "10", two: "other"});
-	myReactivityQuery.set(params);
+	myReactivityQuery.setFromParams(params);
 
 	test.equal(timesChanged, 1, "onChange callback run 1 time");
 	test.equal(paramsRecord.oldData, 54);
