@@ -32,6 +32,7 @@ ReactiveQuery = function (name, keys) {
 	 * {array} normalized array of keys
 	 */
 	var entireKeys = ReactiveQueryUtils.normalizeKeys(_.clone(keys));
+	var self = this;
 	var currentData = new ReactiveDict();
 	// set default values if any
 	_.each(entireKeys, function (key) {
@@ -76,9 +77,7 @@ ReactiveQuery = function (name, keys) {
 		} catch (e) {
 			console.warn && console.warn("Malformed url param `" + name + "`: ", e);
 		}
-		entireKeys.forEach(function (key) {
-			ReactiveQueryUtils.forceData(param, currentData, key);
-		});
+		self.setAll(param);
 	}
 	/**
 	 * Directly sets data by the key.
@@ -89,6 +88,16 @@ ReactiveQuery = function (name, keys) {
 		var param = {};
 		param[_.isString(key) ? key : key.name] = value;
 		ReactiveQueryUtils.forceData(param, currentData, key);
+	}
+	/**
+	 * Directly sets data copying all values from the data param by known keys. Values which are not set, will be
+	 * considered as null.
+	 * @param data {object} object with data
+	 */
+	this.setAll = function (data) {
+		entireKeys.forEach(function (key) {
+			ReactiveQueryUtils.forceData(data, currentData, key);
+		});
 	}
 	/**
 	 * Provides merged data based on the customData. Ignores invalid data (if isValid callback is defined for the key)

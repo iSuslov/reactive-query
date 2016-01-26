@@ -111,6 +111,7 @@ It could be just a String value, which will be treated as a name of parameter, o
     * [.get(key, [reactive])](#ReactiveQuery+get) ⇒ <code>\*</code>
     * [.setFromParams(params)](#ReactiveQuery+setFromParams)
     * [.set(key, value)](#ReactiveQuery+set)
+    * [.setAll(data)](#ReactiveQuery+setAll)
     * [.whatIf([...arguments])](#ReactiveQuery+whatIf) ⇒ <code>object</code>
     * [.whatIfAsQueryParam([...arguments])](#ReactiveQuery+whatIfAsQueryParam) ⇒ <code>[QueryParamObject](#QueryParamObject)</code>
 
@@ -168,6 +169,17 @@ Directly sets data by the key.
 | --- | --- | --- |
 | key | <code>[ReactiveQueryKey](#ReactiveQueryKey)</code> | key |
 | value | <code>\*</code> | value |
+
+<a name="ReactiveQuery+setAll"></a>
+### reactiveQuery.setAll(data)
+Directly sets data copying all values from the data param by known keys. Values which are not set, will be
+considered as null.
+
+**Kind**: instance method of <code>[ReactiveQuery](#ReactiveQuery)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| data | <code>object</code> | object with data |
 
 <a name="ReactiveQuery+whatIf"></a>
 ### reactiveQuery.whatIf([...arguments]) ⇒ <code>object</code>
